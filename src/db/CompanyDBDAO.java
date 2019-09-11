@@ -1,9 +1,9 @@
 package db;
 
-import exceptions.ReturnConnectionFailedException;
 import beans.Category;
 import beans.Company;
 import beans.Coupon;
+import exceptions.ReturnConnectionFailedException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +20,7 @@ public class CompanyDBDAO implements CompanyDAO {
         Connection con = connectionPool.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        String sql = "select * from companies where email=?";
+        String sql = "select * from coupon.companies where email=?";
         try {
             stmt = con.prepareStatement(sql);
             stmt.setString(1, email);
@@ -43,7 +43,7 @@ public class CompanyDBDAO implements CompanyDAO {
     @Override
     public boolean isCompanyNameExists(String name) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "select * from companies where name=?";
+        String sql = "select * from coupon.companies where name=?";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, name);
@@ -62,7 +62,7 @@ public class CompanyDBDAO implements CompanyDAO {
     @Override
     public boolean isCompanyExists(String email, String password) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "select * from companies where email=? AND password=?";
+        String sql = "select * from coupon.companies where email=? AND password=?";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, email);
@@ -85,7 +85,7 @@ public class CompanyDBDAO implements CompanyDAO {
     @Override
     public void addCompany(Company company) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "insert into Companies(name, email, password) values(?,?,?)";
+        String sql = "insert into coupon.companies(name, email, password) values(?,?,?)";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, company.getName());
@@ -103,7 +103,7 @@ public class CompanyDBDAO implements CompanyDAO {
     @Override
     public void updateCompany(Company company) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "update companies set name=?,email=?,password=? where id=?";
+        String sql = "update coupon.companies set name=?,email=?,password=? where id=?";
         PreparedStatement stmt;
         try {
             stmt = con.prepareStatement(sql);
@@ -112,7 +112,6 @@ public class CompanyDBDAO implements CompanyDAO {
             stmt.setString(3, company.getPassword());
             stmt.setInt(4, company.getId());
             stmt.execute();
-            stmt.close();
         } catch (SQLException e) {
             throw new SQLException();
         } finally {
@@ -123,7 +122,7 @@ public class CompanyDBDAO implements CompanyDAO {
     @Override
     public void deleteCompany(int companyID) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "delete from companies where id=?";
+        String sql = "delete from coupon.companies where id=?";
         PreparedStatement stmt;
         try {
             stmt = con.prepareStatement(sql);
@@ -142,7 +141,7 @@ public class CompanyDBDAO implements CompanyDAO {
             throws SQLException, ReturnConnectionFailedException {
         ArrayList<Company> allCompanies = new ArrayList<>();
         Connection con = connectionPool.getConnection();
-        String sql = "select id from companies";
+        String sql = "select id from coupon.companies";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet companiesID = stmt.executeQuery();
@@ -161,7 +160,7 @@ public class CompanyDBDAO implements CompanyDAO {
     public Company getOneCompany(int companyID)
             throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "select * from coupons where company_id=?";
+        String sql = "select * from coupon.coupons where company_id=?";
         ArrayList<Coupon> companyCoupons = new ArrayList<>();
         Company company;
         try {
@@ -174,7 +173,7 @@ public class CompanyDBDAO implements CompanyDAO {
                         rsCompanyCoupons.getString(5), rsCompanyCoupons.getDate(6), rsCompanyCoupons.getDate(7),
                         rsCompanyCoupons.getInt(8), rsCompanyCoupons.getDouble(9), rsCompanyCoupons.getString(10)));
             }
-            sql = "select * from companies where id=?";
+            sql = "select * from coupon.companies where id=?";
             stmt = con.prepareStatement(sql);
             stmt.setInt(1, companyID);
             ResultSet rsCompany = stmt.executeQuery();
@@ -192,7 +191,7 @@ public class CompanyDBDAO implements CompanyDAO {
     @Override
     public ArrayList<Integer> getCompanyCouponIDs(int companyID) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "select id from coupons where company_id=?";
+        String sql = "select id from coupon.coupons where company_id=?";
         ArrayList<Integer> companyCouponIDs = new ArrayList<>();
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -212,7 +211,7 @@ public class CompanyDBDAO implements CompanyDAO {
     @Override
     public int getCompanyID(String email, String password) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "select id from companies where email=? AND password=?";
+        String sql = "select id from coupon.companies where email=? AND password=?";
         int id = -1;
         try {
             PreparedStatement stmt = con.prepareStatement(sql);

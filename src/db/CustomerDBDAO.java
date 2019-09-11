@@ -1,12 +1,12 @@
 package db;
 
 
-import exceptions.CouponsNotFoundForCustomerException;
-import exceptions.CustomerNotFoundException;
-import exceptions.ReturnConnectionFailedException;
 import beans.Category;
 import beans.Coupon;
 import beans.Customer;
+import exceptions.CouponsNotFoundForCustomerException;
+import exceptions.CustomerNotFoundException;
+import exceptions.ReturnConnectionFailedException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +23,7 @@ public class CustomerDBDAO implements CustomerDAO {
     @Override
     public boolean isCustomerExists(String email, String password) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "select * from customers where email=? AND password=?";
+        String sql = "select * from coupon.customers where email=? AND password=?";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, email);
@@ -44,7 +44,7 @@ public class CustomerDBDAO implements CustomerDAO {
     @Override
     public void addCustomer(Customer customer) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "insert into customers(first_name,last_name,email,password) values(?,?,?,?)";
+        String sql = "insert into coupon.customers(first_name,last_name,email,password) values(?,?,?,?)";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             ;
@@ -64,7 +64,7 @@ public class CustomerDBDAO implements CustomerDAO {
     @Override
     public void updateCustomer(Customer customer) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "update customers set first_name=?,last_name=?,email=?,password=? where id=?";
+        String sql = "update coupon.customers set first_name=?,last_name=?,email=?,password=? where id=?";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, customer.getFirstName());
@@ -84,7 +84,7 @@ public class CustomerDBDAO implements CustomerDAO {
     @Override
     public void deleteCustomer(int customerID) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "delete from customers where id=?";
+        String sql = "delete from coupon.customers where id=?";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, customerID);
@@ -97,9 +97,9 @@ public class CustomerDBDAO implements CustomerDAO {
     }
 
     @Override
-    public ArrayList<Customer> getAllCustomers() throws SQLException, ReturnConnectionFailedException, CustomerNotFoundException{
+    public ArrayList<Customer> getAllCustomers() throws SQLException, ReturnConnectionFailedException, CustomerNotFoundException {
         Connection con = connectionPool.getConnection();
-        String sql = "select id from customers";
+        String sql = "select id from coupon.customers";
         ArrayList<Customer> allCustomers = new ArrayList<>();
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -136,7 +136,7 @@ public class CustomerDBDAO implements CustomerDAO {
                         rsSingleCoupon.getInt(8), rsSingleCoupon.getDouble(9), rsSingleCoupon.getString(10)));
 
             }
-            sql = "select * from customers where id=?";
+            sql = "select * from coupon.customers where id=?";
             PreparedStatement stmt3 = con.prepareStatement(sql);
             stmt3.setInt(1, customerID);
             ResultSet rsCustomer = stmt3.executeQuery();
@@ -154,7 +154,7 @@ public class CustomerDBDAO implements CustomerDAO {
     @Override
     public boolean isCustomerEmailExists(String email) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "select * from customers where email=?";
+        String sql = "select * from coupon.customers where email=?";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, email);
@@ -163,6 +163,7 @@ public class CustomerDBDAO implements CustomerDAO {
                 return true;
             else
                 return false;
+
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         } finally {
@@ -173,7 +174,7 @@ public class CustomerDBDAO implements CustomerDAO {
     @Override
     public boolean isCouponAlreadyPurchased(int customerID, int couponID) throws SQLException, ReturnConnectionFailedException, CouponsNotFoundForCustomerException {
         Connection con = connectionPool.getConnection();
-        String sql = "select * from customers_vs_coupons where customer_id=? AND coupon_id=?";
+        String sql = "select * from coupon.customers_vs_coupons where customer_id=? AND coupon_id=?";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, customerID);
@@ -193,7 +194,7 @@ public class CustomerDBDAO implements CustomerDAO {
     @Override
     public int getCustomerID(String email, String password) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "select id from customers where email=? AND password=?";
+        String sql = "select id from coupon.customers where email=? AND password=?";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, email);

@@ -1,8 +1,8 @@
 package db;
 
-import exceptions.ReturnConnectionFailedException;
 import beans.Category;
 import beans.Coupon;
+import exceptions.ReturnConnectionFailedException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,14 +12,12 @@ import java.util.ArrayList;
 
 public class CouponsDBDAO implements CouponsDAO {
 
-    private int couponID;
-
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     @Override
     public void addCoupon(Coupon coupon) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "insert into coupons(company_id,category_id,title,description,start_date,end_date,amount,price,image) values(?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into coupon.coupons(company_id,category_id,title,description,start_date,end_date,amount,price,image) values(?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, coupon.getCompanyID());
@@ -67,7 +65,7 @@ public class CouponsDBDAO implements CouponsDAO {
     @Override
     public void deleteCoupon(int couponID) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "delete from coupons where id=?";
+        String sql = "delete from coupon.coupons where id=?";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, couponID);
@@ -83,7 +81,7 @@ public class CouponsDBDAO implements CouponsDAO {
     @Override
     public ArrayList<Coupon> getAllCoupons() throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "select * from coupons";
+        String sql = "select * from coupon.coupons";
         ArrayList<Coupon> coupons = new ArrayList<>();
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -104,7 +102,7 @@ public class CouponsDBDAO implements CouponsDAO {
     @Override
     public Coupon getOneCoupon(int couponID) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "select * from coupons where id=?";
+        String sql = "select * from coupon.coupons where id=?";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, couponID);
@@ -158,7 +156,7 @@ public class CouponsDBDAO implements CouponsDAO {
     @Override
     public boolean isCouponNameExists(String name) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "select * from coupons where title=?";
+        String sql = "select * from coupon.coupons where title=?";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, name);
@@ -177,7 +175,7 @@ public class CouponsDBDAO implements CouponsDAO {
     @Override
     public void deleteAllCompanyCoupons(int companyID) throws SQLException, ReturnConnectionFailedException {
         Connection con = connectionPool.getConnection();
-        String sql = "delete from coupons where company_id=?";
+        String sql = "delete from coupon.coupons where company_id=?";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, companyID);

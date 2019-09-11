@@ -1,0 +1,4 @@
+Good practice is to add the DB name in the SQL statement for example:
+DB name = coupon
+so we add coupon.tableName
+String sql = "select id from coupon.coupons where company_id=?";
