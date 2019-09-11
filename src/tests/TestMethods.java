@@ -142,7 +142,7 @@ public class TestMethods {
 
     public static void deleteCouponPurchaseAdmin(int custId, int coupId) throws Exception {
         adminFacade.deleteCouponPurchase(custId, coupId);
-        System.out.println("deleted purchase:\ncustomer_Id: " + custId + "\ncoupon_Id: " + coupId);
+        System.out.println("Deleted coupon purchase:\nCustomer ID: " + custId + "\nCoupon ID: " + coupId);
     }
 
     public static void updateCouponCompany() throws Exception {
@@ -159,7 +159,7 @@ public class TestMethods {
     }
 
     public static void deleteCouponCompany(int id) throws Exception {
-        System.out.println("deleted coupon with id " + id);
+        System.out.println("Deleted coupon is:  " + id);
         companyFacade.deleteCoupon(id);
     }
 
