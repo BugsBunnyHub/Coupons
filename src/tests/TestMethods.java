@@ -18,8 +18,6 @@ import java.util.Random;
 
 public class TestMethods {
 
-    //TODO Review code, and add con.close() + stmt.close()
-
     private static AdminFacade adminFacade;
     private static CustomerFacade customerFacade;
     private static CompanyFacade companyFacade;
